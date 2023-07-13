@@ -1,9 +1,11 @@
 import React from "react";
 import "../assets/style/nav.css";
+import travel from '../assets/img/travel.png'
+
 export default function Navbar() {
   return (
     <div className="nav">
-      <div className="logo">LOGO </div>
+      <div className="logo"><img src ={travel} alt = ""/> </div>
       <div className="menu">
         <ul>
           <li>Home</li>

@@ -6,6 +6,8 @@ function App(){
   return (
     <>
       
+    
+    
     <Navbar/>
     <Page1/>
     </>
