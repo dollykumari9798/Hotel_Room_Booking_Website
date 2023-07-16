@@ -1,6 +1,7 @@
 import Header from "../componenets/Header";
 import About from "../componenets/About";
 import Services from "../componenets/Services";
+import Testimonials from "../componenets/Testimonials";
 
 export default function HomePage() {
     return (
@@ -8,6 +9,7 @@ export default function HomePage() {
             <Header />
             <About />
             <Services/>
+            <Testimonials/>
         </>
     );
 }
