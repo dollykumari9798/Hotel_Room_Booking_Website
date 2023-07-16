@@ -1,0 +1,49 @@
+.serviceParent{
+    background: #1B252F;
+    padding: 2rem 0;
+}
+.serviceParent .heading{
+    color: #fff;
+    padding-left: 5rem;
+    padding-bottom: 2rem;
+}
+.serviceCards{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding: 2rem;
+    justify-content: space-between;
+}
+.card{
+    position: relative;
+    overflow: hidden;
+    height: 20rem;
+}
+.card img{
+    height: 100%;
+    transition: all 0.5s cubic-bezier(0.14, 0.76, 0.58, 1);
+}
+.cardContent{
+    position: absolute;
+    bottom: 0rem;
+    padding: 1rem;
+    height: 50%;
+    text-align: center;
+    background-color: rgba(31, 31, 31, 0.85);
+    width: 100%;
+    color: #fff;
+    transition: all 0.4s cubic-bezier(0.14, 0.76, 0.58, 1);
+    opacity: 0;
+    transform: translateY(70%);
+}
+.cardTitle{
+    font-size: 1.5rem;
+}
+.card:hover .cardContent{
+    opacity: 1;
+    /* height: 50%; */
+    transform: translateY(0%);
+}
+.card:hover img{
+    transform: scale(1.5);
+}

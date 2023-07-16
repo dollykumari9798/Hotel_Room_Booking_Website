@@ -1,0 +1,56 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+.nav {
+    /* height: 2em; */
+    padding: 0.8em 1.5em;
+    padding-right: 1.5em;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+
+    background: linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0.6) 0%,
+        rgba(0, 0, 0, 0.6) 100%
+    );
+
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(3px);
+    color: #fff;
+
+    font-size: 1.2em;
+}
+.nav .logo {
+    position: relative;
+}
+.nav .logo img {
+    height: 2.8em;
+    width: 2.8em;
+    position: absolute;
+    top: -1.7rem;
+}
+.nav .menu ul {
+    display: flex;
+    flex-direction: row;
+    list-style-type: none;
+    justify-content: space-evenly;
+    column-gap: 2rem;
+    align-items: center;
+}
+.nav .menu ul .log {
+    padding: 0.5rem 1rem;
+    background-color: rgb(220, 154, 68);
+    border-radius: 2rem;
+}
+.nav .menu ul .sign {
+    padding: 0.5rem 1rem;
+    background-color: rgb(214, 148, 62);
+    border-radius: 2rem;
+}
