@@ -1,0 +1,29 @@
+.HomeSearchHotel {
+    background: #faf3ed;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 5rem;
+}
+.HomeSearchHotel .searchPannel{
+    display: flex;
+    flex-direction: column;
+}
+.HomeSearchHotel .searchPannel input{
+    outline: none;
+    border: none;
+    background: transparent;
+    padding: 1rem;
+    border-bottom: 2px solid #919191;
+    margin-bottom: 2rem;
+}
+.HomeSearchHotel .searchPannel button{
+    background: #FF7E48;
+    border-radius: 2rem;
+    padding: 0.8rem 1rem;
+    border-color: #FF7E48;
+}
+.HomeSearchHotel .imgContainer img{
+    height: 20rem;
+}

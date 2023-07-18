@@ -1,0 +1,40 @@
+.NewsLetter {
+    background: #1b252f;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    padding: 5rem;
+    color: #fff;
+}
+.NewsLetter .title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+.NewsLetter .desc {
+    width: 50%;
+    font-size: 1.2rem;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+.NewsLetter .inputContainer input {
+    outline: none;
+    border: none;
+    background: transparent;
+    padding: 0.8rem 1rem;
+    border-bottom: 2px solid #ff7e48;
+    margin-bottom: 2rem;
+    /* width: 100%; */
+    color: #fff;
+}
+.NewsLetter .inputContainer button{
+    padding: 0.8rem 1.5rem;
+    background: #FF7E48;
+    border-radius: 0.5rem;
+    outline: none;
+    border: none;
+    color: #fff;
+    position: relative;
+    left: -0.4rem;
+    top: 0.1rem;
+}
