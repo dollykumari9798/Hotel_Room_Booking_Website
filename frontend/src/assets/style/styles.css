@@ -1,0 +1,33 @@
+:root{
+    --swiper-navigation-size: 2rem !important;
+}
+.swiper {
+    width: 20rem;
+    height: 12rem;
+}
+.swiper:nth-child(2){
+    width: 20rem;
+    height: 3.5rem;
+}
+.swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+
+    /* Center slide text vertically */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0;
+    box-shadow: inset 0px 0px 30px -3px rgba(0,0,0,0.75);
+}
+.swiper-free-mode > .swiper-wrapper{
+    /* filter: contrast(-5); */
+}

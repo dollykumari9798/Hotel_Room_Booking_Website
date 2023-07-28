@@ -1,0 +1,10 @@
+{
+    "hotelName": "Hotel Delta Suites",
+    "hotelId": "64c20dc2a10a918db2e2ac95",
+    "BookingDuration": "27-03-2023_27-03-2023",
+    "City": "Delhi",
+    "roomType": "SB2",
+    "NoOfPersson": 1,
+    "TotalPrice": 3000,
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YzExZGMzZDcxZDZjMmNjNjZhZTdhMiIsImlhdCI6MTY5MDQ4MzY2NCwiZXhwIjoxNjkwNzQyODY0fQ.NBnDawcMJ2EMdDw1UhwAU-d9OAXi5iSSgTurP3XGY9o"
+}

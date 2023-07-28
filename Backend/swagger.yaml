@@ -1,0 +1,7 @@
+swagger: "2.0"
+info:
+  title: "Dolly Kumari Backend API Doc"
+  description: "An API documentation for the entire Hotel Room Booking System Backend"
+  version: "0.0.1"
+servers: 
+  url: "http://localhost:5000" 

@@ -1,0 +1,57 @@
+.BookingHistory {
+    margin-top: 4rem;
+}
+.BookingHistory h1 {
+    text-align: center;
+}
+/* table */
+.table-wrapper {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.table-wrapper::-webkit-scrollbar {
+    height: 8px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+    background: #1b4965;
+    border-radius: 40px;
+}
+
+.table-wrapper::-webkit-scrollbar-track {
+    background: #fff;
+    border-radius: 40px;
+}
+
+.table-wrapper table {
+    margin: 50px 0 20px;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.table-wrapper table th,
+.table-wrapper table td {
+    padding: 0.8rem;
+    min-width: 8rem;
+}
+
+.table-wrapper table th {
+    color: #fff;
+    background: #1b4965;
+}
+
+.table-wrapper table tbody tr:nth-of-type(even) > * {
+    background: #edf2f4;
+}
+
+.table-wrapper table td:first-child {
+    display: grid;
+    grid-template-columns: 25px 1fr;
+    grid-gap: 10px;
+    text-align: left;
+}
+.BookingHistory button{
+    margin-left: 50%;
+}

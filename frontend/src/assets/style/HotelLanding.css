@@ -1,0 +1,107 @@
+/* Hotel Desc */
+.HotelDesc {
+    padding: 3rem 5rem;
+}
+.hotelInfo {
+    width: 60%;
+    font-size: 1.2rem;
+    margin-top: 1rem;
+}
+.hotelFeatures {
+    margin: 2rem 0;
+}
+.title {
+    font-size: 1.5rem;
+}
+.hotelFeatures .featureCards {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 1rem;
+    justify-content: space-evenly;
+}
+.hotelFeatures .featureCards .featureCard {
+    padding: 1rem;
+    border-radius: 0.8rem;
+    background: lightgray;
+    height: 10rem;
+    width: 10rem;
+    font-size: 1.2em;
+    display: grid;
+    place-items: center;
+}
+.roomParents > div {
+    display: flex;
+    flex-direction: row;
+    padding: 2rem;
+}
+.roomImg img {
+    width: 30rem;
+    height: 30rem;
+    margin-right: 2rem;
+}
+.roomDesc {
+    margin-left: 3rem;
+}
+.roomDesc .roomInfo {
+    margin-left: 1rem;
+    margin-top: 1rem;
+}
+.roomDesc .roomTitle {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+.roomDesc .BookingDate {
+    border: none;
+}
+.roomDesc .BookingDate .title {
+    font: 1.2rem;
+}
+.roomDesc .BookingDate .BookingContainer {
+    width: 60%;
+    margin-left: 2rem;
+}
+.roomDesc .BookingDate .BookingContainer .aminityItem {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+.roomDesc .stayDuration,
+.AvailableRooms,
+.roomPrice {
+    margin: 1rem;
+    display: flex;
+    flex-direction: row;
+    column-gap: 1rem;
+}
+.roomDesc {
+    margin-left: 1rem;
+}
+.roomDesc button {
+    margin: 2rem 1rem;
+    outline: none;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    background: #f87374;
+}
+.hotelReview {
+    border-top: 1px solid #000;
+    padding-top: 2rem;
+}
+.roomRating{
+    display: flex;
+    flex-direction: row;
+    margin-top: 1rem;
+}
+.roomRating>div{
+    width: fit-content;
+    margin: 0 1rem;
+    border-radius: 0.2rem;
+    border: 1px solid #000;
+    padding: 0 0.2rem;
+    /* font-size: 1.5rem; */
+}
+.roomRating>div>span:nth-child(2){
+    font-size: 0.8rem;
+}
