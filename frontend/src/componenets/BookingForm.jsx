@@ -27,25 +27,66 @@ export default function BookingForm({ bookRoom }) {
 
     async function handleCheckout(e) {
         e.preventDefault();
-        setTotal(formData.totalPrice);
-        console.log(formData);
         try {
             const response = await axios.post(
+                "http://localhost:5000/payment/checkout",
+                {
+                    amount: total,
+                }
+            );
+            // console.log(response.data);
+
+            const bookedRes = await axios.post(
                 "http://localhost:5000/user/bookhotel",
                 formData
             );
-            if (response.data.error) {
-                console.log(response.data.error);
-            }
-            if (response.data.token) {
-                console.log(response.data.token);
-                // localStorage.setItem("jwtToken", response.data.token);
-                navigate("/user/history");
-            }
-        } catch (error) {
-            // Handle login error here
-            console.error("Login failed:", error.message);
+
+            const options = {
+                key: "rzp_test_6K41LeLgTOJFWd", // Enter the Key ID generated from the Dashboard
+                amount: response.data.order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                currency: "INR",
+                name: "Dolly Kumari",
+                description: "Hotel Booking Payment",
+                image: "https://avatars.githubusercontent.com/u/89187472?v=4",
+                order_id: response.data.order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                callback_url: "http://localhost:5000/payment/verification",
+                prefill: {
+                    name: userData.name,
+                    email: userData.email,
+                    contact: userData.mob,
+                },
+                notes: {
+                    address: "Razorpay Corporate Office",
+                },
+                theme: {
+                    color: "#3399cc",
+                },
+            };
+            const rzp1 = new window.Razorpay(options);
+            rzp1.open();
+        } catch (err) {
+            console.log(err.message);
         }
+
+        setTotal(formData.totalPrice);
+        console.log(formData);
+        // try {
+        //     const response = await axios.post(
+        //         "http://localhost:5000/user/bookhotel",
+        //         formData
+        //     );
+        //     if (response.data.error) {
+        //         console.log(response.data.error);
+        //     }
+        //     if (response.data.token) {
+        //         console.log(response.data.token);
+        //         // localStorage.setItem("jwtToken", response.data.token);
+        //         navigate("/user/history");
+        //     }
+        // } catch (error) {
+        //     // Handle login error here
+        //     console.error("Error:", error.message);
+        // }
     }
 
     async function getUserDetails(tokenID) {
@@ -77,9 +118,10 @@ export default function BookingForm({ bookRoom }) {
                 },
             });
             setHotelData(response.data);
+            // console.log(response.data)
             setFormData({
                 ...formData,
-                hotelId: response.data._id,
+                // hotelId: response.data._id,
                 hotelName: response.data.name,
             });
             // console.log(response.data);
@@ -94,6 +136,7 @@ export default function BookingForm({ bookRoom }) {
     setTimeout(() => {
         setFormData({
             ...formData,
+            hotelId:bookRoom.hotelId,
             name: userData.name,
             email: userData.email,
             mob: userData.mob,
@@ -107,10 +150,10 @@ export default function BookingForm({ bookRoom }) {
     }, 5000);
     useEffect(() => {
         const token = localStorage.getItem("jwtToken");
-        // setFormData({
-        //     ...formData,
-        //     userId:token,
-        // });
+        setFormData({
+            ...formData,
+            hotelId:bookRoom.hotelId,
+        });
         getUserDetails(token);
         getHotelDetails(bookRoom.hotelId);
     }, []);

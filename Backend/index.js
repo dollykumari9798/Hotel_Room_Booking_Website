@@ -6,6 +6,7 @@ const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const adminRoute = require("./routes/adminRoute");
 const hotelRoute = require("./routes/hotelRoute");
+const paymentRoute = require("./routes/paymentRoute");
 const cors = require("cors");
 
 const app = express();
@@ -25,11 +26,17 @@ app.get("/", (req, res) => {
     res.send("recieved get request");
 });
 
-app.use('/',authRoutes); // route for login/signup
+app.use("/", authRoutes); // route for login/signup
 app.use("/user", userRoutes); // Main route for "/user"
 app.use("/admin", adminRoute);
 app.use("/hotel", hotelRoute);
+app.use("/payment", paymentRoute);
 
+// const instance = new Razorpay({
+//     key_id: process.env.RAZORPAY_API_KEY_ID,
+//     key_secret: process.env.RAZORPAY_API_KEY_SECRET,
+// });
+// module.exports =instance;
 /*
 const options = {
     definition: {

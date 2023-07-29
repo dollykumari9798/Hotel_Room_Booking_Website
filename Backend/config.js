@@ -11,6 +11,6 @@ const options = {
 
 mongoose.connect(dbURI, options)
   .then(() => console.log('Database connected'))
-  .catch(err => console.log(err.message));
+  .catch(err => console.log('error'));
 
 module.exports = mongoose;

@@ -54,14 +54,6 @@ module.exports.bookHotel_post = async (req, res) => {
         if (!user) {
             res.status(301).json({ message: "user not found" });
         } else {
-            // const {
-            //     hotelName,
-            //     hotelId,
-            //     userId,
-            //     BookingDuration,
-            //     TotalPrice,
-            //     nRooms
-            // } = req.body;
             const booking = await BookingHistory.create({
                 hotelName: hotelName,
                 hotelId: hotelId,
@@ -70,33 +62,7 @@ module.exports.bookHotel_post = async (req, res) => {
                 TotalPrice: totalPrice,
                 RoomType:roomType,
             });
-            // changing the status of the room
-            // const hotel = await Hotel.findById(hotelId);
-            // const roomType = getRoomType(roomId);
-            // // console.log(hotel.name, hotel.rooms);
-            // // console.log(roomType);
-            // if (roomType == "Double Bed") {
-            //     console.log("db");
-            //     hotel.rooms[0].roomInfo[Number(roomId.charAt(2)) - 1].status =
-            //         "booked";
-            // } else if (roomType == "Single Bed") {
-            //     const hotel = await Hotel.findByIdAndUpdate(
-            //         hotelId,
-            //         {
-            //             $set: {
-            //                 "rooms[1].roomInfo[${t}].status ": "booked",
-            //             },
-            //         },
-            //         { arrayFilters: [{ t: Number(roomId.charAt(2)) - 1 }] }
-            //     );
-            //     console.log(hotel);
-            // } else if (roomType == "Master Suite") {
-            //     hotel.rooms[2].roomInfo[Number(roomId.charAt(2)) - 1].status =
-            //         "booked";
-            // } else if (roomType == "Executive Suite") {
-            //     hotel.rooms[3].roomInfo[Number(roomId.charAt(2)) - 1].status =
-            //         "booked";
-            // }
+            
 
             res.status(200).json({ token: booking._id });
         }
