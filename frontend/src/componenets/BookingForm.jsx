@@ -27,7 +27,8 @@ export default function BookingForm({ bookRoom }) {
         e.preventDefault();
         try {
             const response = await axios.post(
-                "http://localhost:5000/payment/checkout",
+                "https://hotelbookingfrontend.onrender.com/payment/checkout",
+                // "http://localhost:5000/payment/checkout",
                 {
                     amount: total,
                 }
@@ -35,7 +36,8 @@ export default function BookingForm({ bookRoom }) {
             // console.log(response.data);
 
             const bookedRes = await axios.post(
-                "http://localhost:5000/user/bookhotel",
+                "https://hotelbookingfrontend.onrender.com/user/bookhotel",
+                // "http://localhost:5000/user/bookhotel",
                 formData
             );
 
@@ -47,7 +49,8 @@ export default function BookingForm({ bookRoom }) {
                 description: "Hotel Booking Payment",
                 image: "https://avatars.githubusercontent.com/u/89187472?v=4",
                 order_id: response.data.order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-                callback_url: "http://localhost:5000/payment/verification",
+                callback_url: "https://hotelbookingfrontend.onrender.com/payment/verification",
+                // callback_url: "http://localhost:5000/payment/verification",
                 prefill: {
                     name: userData.name,
                     email: userData.email,
@@ -74,7 +77,8 @@ export default function BookingForm({ bookRoom }) {
     async function getUserDetails(tokenID) {
         try {
             const response = await axios.get(
-                "http://localhost:5000/user/profile",
+                "https://hotelbookingfrontend.onrender.com/user/profile",
+                // "http://localhost:5000/user/profile",
                 {
                     params: {
                         token: tokenID,
@@ -94,7 +98,8 @@ export default function BookingForm({ bookRoom }) {
     }
     async function getHotelDetails(id) {
         try {
-            const response = await axios.get("http://localhost:5000/hotel/", {
+            const response = await axios.get("https://hotelbookingfrontend.onrender.com/hotel/", {
+            // const response = await axios.get("http://localhost:5000/hotel/", {
                 params: {
                     id: id,
                 },

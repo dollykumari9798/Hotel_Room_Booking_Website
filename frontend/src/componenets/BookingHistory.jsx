@@ -7,7 +7,8 @@ export default function BookingHistory() {
     async function getUserDetails(tokenID) {
         try {
             const response = await axios.get(
-                "http://localhost:5000/user/history",
+                "https://hotelbookingfrontend.onrender.com/user/history",
+                // "http://localhost:5000/user/history",
                 {
                     params: {
                         token: tokenID,

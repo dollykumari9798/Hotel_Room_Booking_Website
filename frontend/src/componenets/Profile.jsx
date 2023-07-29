@@ -18,7 +18,8 @@ export default function Profile() {
     async function getUserDetails(tokenID) {
         try {
             const response = await axios.get(
-                "http://localhost:5000/user/profile",
+                "https://hotelbookingfrontend.onrender.com/user/profile",
+                // "http://localhost:5000/user/profile",
                 {
                     params: {
                         token: tokenID,

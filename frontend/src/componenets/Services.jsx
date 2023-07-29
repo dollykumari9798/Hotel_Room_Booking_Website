@@ -9,35 +9,35 @@ export default function Services() {
             <div className="card">
                 <img src={services} alt="" />
                 <div className="cardContent">
-                    <div className="cardTitle">Card1</div>
+                    <div className="cardTitle">Flight Bookings</div>
                     <div className="cardPara"></div>
                 </div>
             </div>
             <div className="card">
                 <img src={services} alt="" />
                 <div className="cardContent">
-                    <div className="cardTitle">Card1</div>
+                    <div className="cardTitle">Hotel Reservation</div>
                     <div className="cardPara"></div>
                 </div>
             </div>
             <div className="card">
                 <img src={services} alt="" />
                 <div className="cardContent">
-                    <div className="cardTitle">Card1</div>
+                    <div className="cardTitle">Tour Packages</div>
                     <div className="cardPara"></div>
                 </div>
             </div>
             <div className="card">
                 <img src={services} alt="" />
                 <div className="cardContent">
-                    <div className="cardTitle">Card1</div>
+                    <div className="cardTitle">Travel Insurance</div>
                     <div className="cardPara"></div>
                 </div>
             </div>
             <div className="card">
                 <img src={services} alt="" />
                 <div className="cardContent">
-                    <div className="cardTitle">Card1</div>
+                    <div className="cardTitle">Visa and Passport Assistance</div>
                     <div className="cardPara"></div>
                 </div>
             </div>

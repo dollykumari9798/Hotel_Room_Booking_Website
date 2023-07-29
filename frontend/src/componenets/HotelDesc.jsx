@@ -90,8 +90,8 @@ export default function HotelDesc({ bookRoom, setBookRoom }) {
 
     async function getHotelDetails(id) {
         try {
-            // const response = await axios.get("https://hotelbookingfrontend.onrender.com/hotel/", {
-            const response = await axios.get("http://localhost:5000/hotel/", {
+            const response = await axios.get("https://hotelbookingfrontend.onrender.com/hotel/", {
+            // const response = await axios.get("http://localhost:5000/hotel/", {
                 params: {
                     id: id,
                 },

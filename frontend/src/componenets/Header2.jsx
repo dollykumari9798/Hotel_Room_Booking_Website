@@ -5,8 +5,8 @@ import axios from "axios";
 export default function Header2({ city, setCity, setHotels }) {
     async function handleSearch() {
         try {
-            // const response = await axios.get("https://hotelbookingfrontend.onrender.com/hotel/all",{
-                    const response = await axios.get('http://localhost:5000/hotel/all', {
+            const response = await axios.get("https://hotelbookingfrontend.onrender.com/hotel/all",{
+                    // const response = await axios.get('http://localhost:5000/hotel/all', {
                     params: {
                         city: city,
                     },

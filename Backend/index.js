@@ -55,5 +55,5 @@ app.use("/api-docs", swaggerui.serve, swaggerui.setup(swagger));
 */
 
 app.listen(5000, () => {
-    console.log("http://localhost:5000");
+    console.log(" server running on port 5000");
 });

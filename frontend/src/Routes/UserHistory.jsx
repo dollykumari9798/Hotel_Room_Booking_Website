@@ -8,7 +8,7 @@ export default function UserHistory() {
     <>
         <Navbar/>
         <BookingHistory/>
-        {/* <Footer/> */}
+        <Footer/>
     </>
   )
 }

@@ -12,7 +12,8 @@ export default function Signup() {
     const navigate = useNavigate(); 
     const handleLogin = async () => {
         try {
-            const response = await axios.post("http://localhost:5000/signup", {
+            const response = await axios.post("https://hotelbookingfrontend.onrender.com/signup", {
+            // const response = await axios.post("http://localhost:5000/signup", {
                 email: email,
                 password: password,
                 name : name,
