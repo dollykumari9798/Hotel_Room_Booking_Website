@@ -10,10 +10,8 @@ const bookingHistorySchema = new mongoose.Schema({
     hotelId: { type: String, required: true },
     userID: { type: String, required: true },
     BookingDuration: { type: String, required: true },
-    roomId: { type: String, required: true },
+    RoomType:{ type:String, requires:true},
     BookingDate: { type: String, default: getCurrentDate },
-    City: { type: String, required: true },
-    NoOfPersons: { type: Number, required: true },
     TotalPrice: { type: Number, required: true },
 });
 

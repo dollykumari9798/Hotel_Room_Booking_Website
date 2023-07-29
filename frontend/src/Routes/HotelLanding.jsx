@@ -8,12 +8,11 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { PropTypes } from "prop-types";
 
-export default function HotelLanding({setBookRoom}) {
+export default function HotelLanding({bookRoom,setBookRoom}) {
   const [searchParams] = useSearchParams();
     const [hotelName, setHotelName] = useState('');
 
     async function getHotelDetails(id) {
-        console.log(id);
         try {
             // const response = await axios.get("https://hotelbookingfrontend.onrender.com/hotel/", {
             const response = await axios.get("http://localhost:5000/hotel/", {
@@ -35,11 +34,12 @@ export default function HotelLanding({setBookRoom}) {
     <>
         <Navbar/>
         <HotelCarousel name={hotelName}/>
-        <HotelDesc setBookRoom={setBookRoom}/>
+        <HotelDesc bookRoom={bookRoom} setBookRoom={setBookRoom}/>
         <Footer/>
     </>
   )
 }
 HotelLanding.propTypes = {
     setBookRoom: PropTypes.func,
+    bookRoom:PropTypes.object,
 };

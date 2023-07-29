@@ -35,61 +35,70 @@ module.exports.userData_get = async (req, res) => {
 };
 
 module.exports.bookHotel_post = async (req, res) => {
-    // console.log(req.body.user);
-    const userId = jwt.decode(req.body.token).id;
+    console.log(req.body);
+    const {
+        hotelId,
+        name,
+        email,
+        mob,
+        hotelName,
+        roomType,
+        arrivalDate,
+        departureDate,
+        avgPrice,
+        totalPrice,
+        nRooms,
+    } = req.body;
     try {
-        const user = await User.findById(userId);
+        const user = await User.findOne({email});
         if (!user) {
             res.status(301).json({ message: "user not found" });
         } else {
-            const {
-                hotelName,
-                hotelId,
-                BookingDuration,
-                City,
-                roomId,
-                NoOfPersson,
-                TotalPrice,
-            } = req.body;
+            // const {
+            //     hotelName,
+            //     hotelId,
+            //     userId,
+            //     BookingDuration,
+            //     TotalPrice,
+            //     nRooms
+            // } = req.body;
             const booking = await BookingHistory.create({
                 hotelName: hotelName,
                 hotelId: hotelId,
-                userID: userId,
-                BookingDuration: BookingDuration,
-                roomId: roomId,
-                City: City,
-                NoOfPersons: NoOfPersson,
-                TotalPrice: TotalPrice,
+                userID: user._id,
+                BookingDuration: arrivalDate+'_'+departureDate,
+                TotalPrice: totalPrice,
+                RoomType:roomType,
             });
             // changing the status of the room
-            const hotel = await Hotel.findById(hotelId);
-            const roomType = getRoomType(roomId);
-            // console.log(hotel.name, hotel.rooms);
-            // console.log(roomType);
-            if (roomType == "Double Bed") {
-                console.log("db");
-                hotel.rooms[0].roomInfo[Number(roomId.charAt(2)) - 1].status =
-                    "booked";
-            } else if (roomType == "Single Bed") {
-                const hotel = await Hotel.findByIdAndUpdate(
-                    hotelId,
-                    {
-                        $set: {
-                            "rooms[1].roomInfo[${t}].status ": "booked",
-                        },
-                    },
-                    { arrayFilters: [{ t: Number(roomId.charAt(2)) - 1 }] }
-                );
-                console.log(hotel);
-            } else if (roomType == "Master Suite") {
-                hotel.rooms[2].roomInfo[Number(roomId.charAt(2)) - 1].status =
-                    "booked";
-            } else if (roomType == "Executive Suite") {
-                hotel.rooms[3].roomInfo[Number(roomId.charAt(2)) - 1].status =
-                    "booked";
-            }
+            // const hotel = await Hotel.findById(hotelId);
+            // const roomType = getRoomType(roomId);
+            // // console.log(hotel.name, hotel.rooms);
+            // // console.log(roomType);
+            // if (roomType == "Double Bed") {
+            //     console.log("db");
+            //     hotel.rooms[0].roomInfo[Number(roomId.charAt(2)) - 1].status =
+            //         "booked";
+            // } else if (roomType == "Single Bed") {
+            //     const hotel = await Hotel.findByIdAndUpdate(
+            //         hotelId,
+            //         {
+            //             $set: {
+            //                 "rooms[1].roomInfo[${t}].status ": "booked",
+            //             },
+            //         },
+            //         { arrayFilters: [{ t: Number(roomId.charAt(2)) - 1 }] }
+            //     );
+            //     console.log(hotel);
+            // } else if (roomType == "Master Suite") {
+            //     hotel.rooms[2].roomInfo[Number(roomId.charAt(2)) - 1].status =
+            //         "booked";
+            // } else if (roomType == "Executive Suite") {
+            //     hotel.rooms[3].roomInfo[Number(roomId.charAt(2)) - 1].status =
+            //         "booked";
+            // }
 
-            res.status(200).json({ message: "booking completed" });
+            res.status(200).json({ token: booking._id });
         }
     } catch (err) {
         console.log(err);
@@ -140,7 +149,6 @@ module.exports.userHistory_get = async (req, res) => {
         res.send("error finding history");
     }
 };
-
 
 function getRoomType(id) {
     id = id.slice(0, 2);

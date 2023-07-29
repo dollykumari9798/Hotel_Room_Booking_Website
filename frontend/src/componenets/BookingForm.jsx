@@ -2,11 +2,16 @@
 import "../assets/style/bookingForm.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { PropTypes } from "prop-types";
+import { useNavigate } from "react-router-dom";
 
-export default function BookingForm({bookRoom}) {
+export default function BookingForm({ bookRoom }) {
     const [userData, setUserData] = useState({});
     const [hotelData, setHotelData] = useState({});
+    const [total, setTotal] = useState(0);
+    const [noRoom, setNoRoom] = useState(0);
     const [formData, setFormData] = useState({
+        hotelId: "",
         name: "",
         email: "",
         mob: "",
@@ -14,22 +19,33 @@ export default function BookingForm({bookRoom}) {
         roomType: "",
         arrivalDate: "",
         departureDate: "",
-        noRooms: 0,
-        noNights: "",
         avgPrice: "",
-        totalPrice: "",
+        totalPrice: 0,
+        nRooms: 0,
     });
-    // const [searchParams] = useSearchParams();
+    const navigate = useNavigate();
 
-    function handleChange(e) {
-        const field = e.target.name;
-        if (field === "RoomType") {
-            setFormData({ ...formData, roomType: e.target.value });
-        }
-        // else if(field === 'Arrival'){
-        //     setFormData({...formData,arrivalDate:e.target.value})
-        // }
+    async function handleCheckout(e) {
+        e.preventDefault();
+        setTotal(formData.totalPrice);
         console.log(formData);
+        try {
+            const response = await axios.post(
+                "http://localhost:5000/user/bookhotel",
+                formData
+            );
+            if (response.data.error) {
+                console.log(response.data.error);
+            }
+            if (response.data.token) {
+                console.log(response.data.token);
+                // localStorage.setItem("jwtToken", response.data.token);
+                navigate("/user/history");
+            }
+        } catch (error) {
+            // Handle login error here
+            console.error("Login failed:", error.message);
+        }
     }
 
     async function getUserDetails(tokenID) {
@@ -43,39 +59,60 @@ export default function BookingForm({bookRoom}) {
                 }
             );
             setUserData(response.data);
+            setFormData({
+                ...formData,
+                name: response.data.name,
+                email: response.data.email,
+                mob: response.data.mob,
+            });
         } catch (err) {
             console.log(err.message);
         }
     }
-    // async function getHotelDetails(id) {
-    //     // console.log(id);
-    //     try {
-    //         const response = await axios.get("http://localhost:5000/hotel/", {
-    //             params: {
-    //                 id: id,
-    //             },
-    //         });
-    //         setHotelData(response.data);
-    //         // console.log(response.data);
-    //     } catch (err) {
-    //         console.log(err.message);
-    //     }
-    // }
-
-    useEffect(() => {
-        const token = localStorage.getItem("jwtToken");
-        getUserDetails(token);
-        // getHotelDetails(searchParams.get("id"));
-        setTimeout(()=>{
-          setFormData({
+    async function getHotelDetails(id) {
+        try {
+            const response = await axios.get("http://localhost:5000/hotel/", {
+                params: {
+                    id: id,
+                },
+            });
+            setHotelData(response.data);
+            setFormData({
+                ...formData,
+                hotelId: response.data._id,
+                hotelName: response.data.name,
+            });
+            // console.log(response.data);
+        } catch (err) {
+            console.log(err.message);
+        }
+    }
+    function calcPrice() {
+        console.log(noRoom * parseInt(formData.avgPrice));
+        return noRoom * Number(formData.avgPrice);
+    }
+    setTimeout(() => {
+        setFormData({
             ...formData,
             name: userData.name,
             email: userData.email,
             mob: userData.mob,
             hotelName: hotelData.name,
-        });  
-        },5000)
-        
+            roomType: bookRoom.roomType,
+            arrivalDate: bookRoom.arrivalDate,
+            departureDate: bookRoom.departureDate,
+            avgPrice: bookRoom.avgPrice,
+            // totalPrice: calcPrice(),
+        });
+    }, 5000);
+    useEffect(() => {
+        const token = localStorage.getItem("jwtToken");
+        // setFormData({
+        //     ...formData,
+        //     userId:token,
+        // });
+        getUserDetails(token);
+        getHotelDetails(bookRoom.hotelId);
     }, []);
 
     return (
@@ -124,19 +161,13 @@ export default function BookingForm({bookRoom}) {
                 </div>
                 <div className="inputParent">
                     <label htmlFor="RoomType">Room Type</label>
-                    <select
-                        name="RoomType"
-                        id="RoomType"
-                        onChange={(e) => handleChange(e)}
-                    >
-                        {hotelData.data?.map((ele) => {
-                            return (
-                                <option key={ele.type} value={ele.type}>
-                                    {ele.title}
-                                </option>
-                            );
-                        })}
-                    </select>
+                    <input
+                        type="text"
+                        name="HotelName"
+                        placeholder="Hotel Name"
+                        readOnly
+                        value={bookRoom.roomType}
+                    />
                 </div>
                 <div className="inputParent">
                     <label htmlFor="Arrival">Arrival Date</label>
@@ -144,8 +175,7 @@ export default function BookingForm({bookRoom}) {
                         type="date"
                         name="Arrival"
                         placeholder="Arrival"
-                        // value={formData.arrivalDate}
-                        // onChange={(e) => handleChange(e)}
+                        value={bookRoom.arrivalDate}
                     />
                 </div>
                 <div className="inputParent">
@@ -154,6 +184,7 @@ export default function BookingForm({bookRoom}) {
                         type="date"
                         name="Departure"
                         placeholder="Departure"
+                        value={bookRoom.departureDate}
                     />
                 </div>
                 <div className="inputParent">
@@ -162,24 +193,47 @@ export default function BookingForm({bookRoom}) {
                         type="number"
                         name="RoomNo"
                         placeholder="Number Of Rooms"
+                        value={noRoom}
+                        onChange={(e) => {
+                            setNoRoom(e.target.value);
+                            setFormData({
+                                ...formData,
+                                nRooms: e.target.value,
+                            });
+                        }}
                     />
                 </div>
                 <div className="billSample">
-                    <div className="TotalNoOfNights">
-                        <span>Total No Of Nights: </span>
-                        <span>2</span>
-                    </div>
                     <div className="AvgPriceOFRoom">
                         <span>Avg. Price Of Room: </span>
-                        <span>₹ 5000 /night</span>
+                        <span>₹ {bookRoom.avgPrice} </span>
                     </div>
                     <div className="TotalPrice">
                         <span>Total Price: </span>
-                        <span>₹ 5000 </span>
+                        <span>₹ {total} </span>
+                        <span>
+                            <button
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    setTotal(calcPrice());
+                                    setFormData({
+                                        ...formData,
+                                        totalPrice: calcPrice(),
+                                    });
+                                }}
+                            >
+                                Calculate
+                            </button>
+                        </span>
                     </div>
                 </div>
-                <button className="cnfBtn">Confirm Booking</button>
+                <button onClick={(e) => handleCheckout(e)} className="cnfBtn">
+                    Confirm Booking
+                </button>
             </form>
         </div>
     );
 }
+BookingForm.propTypes = {
+    bookRoom: PropTypes.object,
+};

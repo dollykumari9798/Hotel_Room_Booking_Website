@@ -45,12 +45,10 @@ export default function Profile() {
                 <div className="UserName">
                     <label htmlFor="Name">Name</label>
                     <input type="text" name="Name" placeholder="Name" value={userData.name}/>
-                    <button className="edit">Edit</button>
                 </div>
                 <div className="UserEmail">
                     <label htmlFor="Email">Email</label>
                     <input type="text" name="Email" placeholder="Email" value={userData.email} />
-                    <button className="edit">Edit</button>
                 </div>
                 <div className="userPhone">
                     <label htmlFor="PhoneNumber">Phone Number</label>
@@ -60,7 +58,6 @@ export default function Profile() {
                         placeholder="Phone Number"
                         value={userData.mob}
                     />
-                    <button className="edit">Edit</button>
                 </div>
                 <div className="userAddress">
                     <label htmlFor="Address">Address</label>
@@ -71,17 +68,16 @@ export default function Profile() {
                         style={{ resize: "none" }}
                         value={userData.address}
                     ></textarea>
-                    <button className="edit">Edit</button>
                 </div>
                 <div className="userCountry">
                     <label htmlFor="Country">Country</label>
                     <input type="text" name="Country" placeholder="Country" value={userData.country} />
-                    <button className="edit">Edit</button>
                 </div>
                 <div className="logOut">
                     <Link to="/">
                         <button onClick={handleLogout}>Logout</button>
                     </Link>
+                    <Link><button className="edit">Update</button></Link>
                 </div>
             </div>
         </div>

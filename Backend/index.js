@@ -25,7 +25,7 @@ app.get("/", (req, res) => {
     res.send("recieved get request");
 });
 
-app.use(authRoutes); // route for login/signup
+app.use('/',authRoutes); // route for login/signup
 app.use("/user", userRoutes); // Main route for "/user"
 app.use("/admin", adminRoute);
 app.use("/hotel", hotelRoute);
