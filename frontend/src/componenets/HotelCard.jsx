@@ -5,18 +5,12 @@ import { Link } from "react-router-dom";
 
 export default function HotelCard({
     name,
-    key,
     id,
     rating,
     location,
     avg,
     features,
 }) {
-    console.log(features, id);
-    // function bookRoom(){
-
-    //     navigate({`/bookRoom?id=${id}`});
-    // }
 
     return (
         <div className="HotelCard">
@@ -42,7 +36,7 @@ export default function HotelCard({
                             <span>/ night</span>
                         </div>
                     </div>
-                    <Link to={`/bookRoom?id=${id}`}>
+                    <Link to={`/hotel?id=${id}`}>
                         <div className="viewHotelBtn">View Hotels</div>
                     </Link>
                 </div>
@@ -53,7 +47,6 @@ export default function HotelCard({
 
 HotelCard.propTypes = {
     name: PropTypes.string,
-    key: PropTypes.string,
     id: PropTypes.string,
     rating: PropTypes.number,
     location: PropTypes.string,

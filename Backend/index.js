@@ -10,7 +10,16 @@ const cors = require("cors");
 
 const app = express();
 app.use(express.json());
-app.use(cors({ origin: "http://127.0.0.1:5173" }));
+app.use(
+    cors({
+        origin: [
+            "http://127.0.0.1:5173",
+            "https://dulcet-bubblegum-d8e1eb.netlify.app/",
+        ],
+        credentials: true, //access-control-allow-credentials:true
+        optionSuccessStatus: 200,
+    })
+);
 
 app.get("/", (req, res) => {
     res.send("recieved get request");
@@ -19,7 +28,7 @@ app.get("/", (req, res) => {
 app.use(authRoutes); // route for login/signup
 app.use("/user", userRoutes); // Main route for "/user"
 app.use("/admin", adminRoute);
-app.use("/hotel", hotelRoute)
+app.use("/hotel", hotelRoute);
 
 /*
 const options = {

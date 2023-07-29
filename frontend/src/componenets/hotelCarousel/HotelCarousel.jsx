@@ -8,7 +8,7 @@ import './hotelCarousel.css';
 // import required modules
 import { Pagination, Navigation } from 'swiper/modules';
 
-export default function HotelCarousel() {
+export default function HotelCarousel({name}) {
     return (
         <div className="HotelCarousel">
             <Swiper
@@ -46,7 +46,7 @@ export default function HotelCarousel() {
                 <SwiperSlide>Slide 8</SwiperSlide>
                 <SwiperSlide>Slide 9</SwiperSlide>
             </Swiper>
-            <div className="hotelTitle">Hotel Usra Major</div>
+            <div className="hotelTitle">{name}</div>
         </div>
     );
 }

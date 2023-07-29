@@ -1,7 +1,41 @@
 import dummyUser from "../assets/img/dummyUser.png";
 import "../assets/style/UserProfile.css";
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function Profile() {
+    const [userData, setUserData] = useState({});
+    const [isLoggedIn, setLoggedIn] = useState(
+        localStorage.jwtToken ? true : false
+    );
+
+    function handleLogout() {
+        localStorage.removeItem("jwtToken");
+        setLoggedIn(false);
+    }
+
+    async function getUserDetails(tokenID) {
+        try {
+            const response = await axios.get(
+                "http://localhost:5000/user/profile",
+                {
+                    params: {
+                        token: tokenID,
+                    },
+                }
+            );
+            setUserData(response.data);
+        } catch (err) {
+            console.log(err.message);
+        }
+    }
+
+    useEffect(()=>{        
+        const token = localStorage.getItem("jwtToken");
+        getUserDetails(token);
+    },[])
+
     return (
         <div className="ProfileParent">
             <div className="UserImg">
@@ -10,12 +44,12 @@ export default function Profile() {
             <div className="userDetails">
                 <div className="UserName">
                     <label htmlFor="Name">Name</label>
-                    <input type="text" name="Name" placeholder="Name" />
+                    <input type="text" name="Name" placeholder="Name" value={userData.name}/>
                     <button className="edit">Edit</button>
                 </div>
                 <div className="UserEmail">
                     <label htmlFor="Email">Email</label>
-                    <input type="text" name="Email" placeholder="Email" />
+                    <input type="text" name="Email" placeholder="Email" value={userData.email} />
                     <button className="edit">Edit</button>
                 </div>
                 <div className="userPhone">
@@ -24,6 +58,7 @@ export default function Profile() {
                         type="number"
                         name="PhoneNumber"
                         placeholder="Phone Number"
+                        value={userData.mob}
                     />
                     <button className="edit">Edit</button>
                 </div>
@@ -33,17 +68,20 @@ export default function Profile() {
                         name="Address"
                         placeholder="Address"
                         rows="5"
-                        style={{resize:'none'}}
+                        style={{ resize: "none" }}
+                        value={userData.address}
                     ></textarea>
                     <button className="edit">Edit</button>
                 </div>
                 <div className="userCountry">
                     <label htmlFor="Country">Country</label>
-                    <input type="text" name="Country" placeholder="Country" />
+                    <input type="text" name="Country" placeholder="Country" value={userData.country} />
                     <button className="edit">Edit</button>
                 </div>
                 <div className="logOut">
-                    <button>Logout</button>
+                    <Link to="/">
+                        <button onClick={handleLogout}>Logout</button>
+                    </Link>
                 </div>
             </div>
         </div>

@@ -141,15 +141,6 @@ module.exports.userHistory_get = async (req, res) => {
     }
 };
 
-function getDuration(Arrival_Date, Departure_Date) {
-    Arrival_Date = convertDateFormat(Arrival_Date);
-    Departure_Date = convertDateFormat(Departure_Date);
-    const dur = Math.round(
-        (new Date(Departure_Date) - new Date(Arrival_Date)) /
-            (1000 * 60 * 60 * 24)
-    );
-    return dur;
-}
 
 function getRoomType(id) {
     id = id.slice(0, 2);
@@ -162,6 +153,16 @@ function getRoomType(id) {
     } else if (id == "ES") {
         return "Executive suite";
     }
+}
+
+function getDuration(Arrival_Date, Departure_Date) {
+    Arrival_Date = convertDateFormat(Arrival_Date);
+    Departure_Date = convertDateFormat(Departure_Date);
+    const dur = Math.round(
+        (new Date(Departure_Date) - new Date(Arrival_Date)) /
+            (1000 * 60 * 60 * 24)
+    );
+    return dur;
 }
 
 function convertDateFormat(inputDate) {

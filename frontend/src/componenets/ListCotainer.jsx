@@ -3,12 +3,12 @@ import HotelCard from "./HotelCard";
 import { PropTypes } from "prop-types";
 
 export default function ListCotainer({ hotels }) {
-    console.log(hotels);
+    // console.log(hotels);
     return (
         <div className="ListCotainer">
             <div className="HotelCardContainer">
                 {hotels.map((ele) => {
-                    console.log(ele.id);
+                    // console.log(ele.id);
 
                     return (
                         <HotelCard

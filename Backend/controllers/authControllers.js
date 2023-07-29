@@ -17,7 +17,7 @@ module.exports.signup_post = async (req, res) => {
         const token = createToken(user._id);
         console.log(token);
         // res.cookie('jwt',token,{httpOnly:true,maxAge:maxAge*1000});
-        res.status(201).json({user: user._id});
+        res.status(201).json({ user: user._id });
     } catch (err) {
         // const errors= handleErrors(err);
         console.log(err);
@@ -25,24 +25,23 @@ module.exports.signup_post = async (req, res) => {
 };
 module.exports.login_post = async (req, res) => {
     const { email, password } = req.body;
-    console.log('working');
     try {
         const user = await User.findOne({ email });
         if (!user) {
-            console.log('not found');
-            res.send({error:"Invalid email or password"});
+            console.log("not found");
+            res.send({ error: "Invalid email" });
             return;
         }
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
-            return res.send({ error: "Invalid credentials" });
+            res.send({ error: "Invalid password" });
+        } else {
+            const token = createToken(user._id);
+            res.send({ token: token });
         }
-        console.log('worked');
-        const token = createToken(user._id)
-        res.send({ token: token });
     } catch (err) {
-        const errors = handleErrors(err);
-        res.send({ error: errors });
+        // const errors = handleErrors(err);
+        res.send({ error: err.message });
     }
 
     // res.send('userLogin');

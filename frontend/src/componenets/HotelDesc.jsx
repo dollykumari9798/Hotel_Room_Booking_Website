@@ -1,297 +1,219 @@
 import "../assets/style/HotelLanding.css";
 import doubleBedImg from "../assets/img/doubleBedImg.jpeg";
-import singleBedImg from "../assets/img/singleBedImg.jpg";
-import masterSuiteImg from "../assets/img/masterSuiteImg.webp";
 import { BsFillStarFill } from "react-icons/bs";
+import { createBrowserRouter, useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { Link, createSearchParams, useNavigate } from "react-router-dom";
 
-export default function HotelDesc() {
+export default function HotelDesc({ bookRoom, setBookRoom }) {
+    const [searchParams] = useSearchParams();
+    const [hotelData, setHotelData] = useState({});
+    const navigate = useNavigate();
+
+    function getDuration(Arrival_Date, Departure_Date) {
+        Arrival_Date = convertDateFormat(Arrival_Date);
+        Departure_Date = convertDateFormat(Departure_Date);
+        const dur = Math.round(
+            (new Date(Departure_Date) - new Date(Arrival_Date)) /
+                (1000 * 60 * 60 * 24)
+        );
+        return dur;
+    }
+
+    function convertDateFormat(inputDate) {
+        const parts = inputDate.split("-");
+        if (parts.length !== 3) {
+            throw new Error("Invalid date format. Expected format: dd-mm-yyyy");
+        }
+
+        const day = parts[0].padStart(2, "0");
+        const month = parts[1].padStart(2, "0");
+        const year = parts[2];
+
+        return `${year}-${month}-${day}`;
+    }
+
+    function handleRoomBooking(e) {
+        const field = e.target.name;
+        if (field === "CheckIn") {
+            setBookRoom((curBookRoom) => {
+                return { ...curBookRoom, arrivalDate: e.target.value };
+            });
+        } else if (field === "CheckOut") {
+            setBookRoom((curBookRoom) => {
+                return { ...curBookRoom, departureDate: e.target.value };
+            });
+        }
+    }
+
+    function handleSubmit(e, ele) {
+        setBookRoom((curBookRoom) => {
+            return {
+                ...curBookRoom,
+                stayDur: getDuration(
+                    curBookRoom.arrivalDate,
+                    curBookRoom.departureDate
+                ),
+            };
+        });
+        var roomType = ele.target.title;
+        var roomPrice = ele.target.price;
+        if (roomType === "Single Bed Room") {
+            setBookRoom((curBookRoom) => {
+                return {
+                    ...curBookRoom,
+                    roomType: roomType,
+                    avgPrice: roomPrice,
+                };
+            });
+        } else if (roomType === "Double Bed Room") {
+            setBookRoom((curBookRoom) => {
+                return {
+                    ...curBookRoom,
+                    roomType: roomType,
+                    avgPrice: roomPrice,
+                };
+            });
+        } else if (roomType === "Master Suite Room") {
+            setBookRoom((curBookRoom) => {
+                return {
+                    ...curBookRoom,
+                    roomType: roomType,
+                    avgPrice: roomPrice,
+                };
+            });
+        } else if (roomType === "Executive Suite Room") {
+            setBookRoom((curBookRoom) => {
+                return {
+                    ...curBookRoom,
+                    roomType: roomType,
+                    avgPrice: roomPrice,
+                };
+            });
+        }
+        navigate("/bookroom");
+    }
+
+    async function getHotelDetails(id) {
+        console.log(id);
+        try {
+            // const response = await axios.get("https://hotelbookingfrontend.onrender.com/hotel/", {
+            const response = await axios.get("http://localhost:5000/hotel/", {
+                params: {
+                    id: id,
+                },
+            });
+
+            setHotelData(response.data);
+            var token = localStorage.getItem("jwtToken");
+        } catch (err) {
+            console.log(err.message);
+        }
+    }
+
+    useEffect(() => {
+        getHotelDetails(searchParams.get("id"));
+    }, []);
+
     return (
         <div className="HotelDesc">
-            <div className="heading">Hotel Ursa Major</div>
-            <div className="hotelInfo">
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                Accusantium facilis eos, alias debitis dolor nisi tenetur
-                officiis ab placeat doloribus omnis commodi, magnam saepe
-                reiciendis voluptate beatae, illo quos blanditiis. Lorem ipsum
-                dolor sit amet consectetur adipisicing elit. Illo consectetur,
-                rem iure repudiandae ea fugiat, blanditiis, odit ratione sunt
-                quos fuga. Hic, labore harum deleniti maxime nemo voluptatem
-                adipisci vitae.
-            </div>
+            <div className="heading">{hotelData.name}</div>
+            <div className="hotelInfo">{hotelData.desc}</div>
             <div className="hotelFeatures">
                 <div className="title">Features </div>
                 <div className="featureCards">
-                    <div className="featureCard">Pool</div>
-                    <div className="featureCard">Parking</div>
+                    {hotelData.features?.map((ele) => {
+                        return (
+                            <div className="featureCard" key={hotelData._id}>
+                                {ele}
+                            </div>
+                        );
+                    })}
+                    {/* <div className="featureCard">Parking</div>
                     <div className="featureCard">Private Dine</div>
-                    <div className="featureCard">Pool</div>
+                    <div className="featureCard">Pool</div> */}
                 </div>
             </div>
             <div className="hotelRooms">
                 <div className="title">Our Rooms</div>
                 <div className="roomParents">
-                    <div className="doubleBed">
-                        <div className="roomImg">
-                            <img src={doubleBedImg} alt="" />
-                        </div>
-                        <div className="roomDesc">
-                            <div className="roomTitle">Double Bed Room</div>
-                            <div className="roomRating">
-                                <span>Avg. Rating: </span>
-                                <div>
-                                    <span>4 </span>
-                                    <span>
-                                        <BsFillStarFill />
-                                    </span>
+                    {hotelData.rooms?.map((ele) => {
+                        return (
+                            <div className={ele.type} key={ele.type}>
+                                <div className="roomImg">
+                                    <img src={doubleBedImg} alt="" />
                                 </div>
-                            </div>
-                            <div className="roomInfo">
-                                Lorem ipsum dolor, sit amet consectetur
-                                adipisicing elit. Iusto eos eum expedita aliquam
-                                atque ratione unde sed beatae quis impedit. Qui
-                                est quia in omnis. Pariatur reprehenderit odio
-                                modi doloribus?
-                            </div>
-                            <div className="BookingDate">
-                                <div className="title">Booking Date:</div>
-                                <div className="BookingContainer">
-                                    <div className="aminityItem">
-                                        <label htmlFor="CheckIn">
-                                            CheckIn:{" "}
-                                        </label>
-                                        <input
-                                            type="date"
-                                            name="CheckIn"
-                                            id="CheckIn"
-                                        />
+                                <div className="roomDesc">
+                                    <div className="roomTitle">{ele.title}</div>
+                                    <div className="roomRating">
+                                        <span>Avg. Rating: </span>
+                                        <div>
+                                            <span>{ele.rating} </span>
+                                            <span>
+                                                <BsFillStarFill />
+                                            </span>
+                                        </div>
                                     </div>
-                                    <div className="aminityItem">
-                                        <label htmlFor="CheckOut">
-                                            CheckOut:{" "}
-                                        </label>
-                                        <input
-                                            type="date"
-                                            name="CheckOut"
-                                            id="CheckOut"
-                                        />
+                                    <div className="roomInfo">{ele.desc}</div>
+                                    <div className="BookingDate">
+                                        <div className="title">
+                                            Booking Date:
+                                        </div>
+                                        <div className="BookingContainer">
+                                            <div className="aminityItem">
+                                                <label htmlFor="CheckIn">
+                                                    CheckIn:{" "}
+                                                </label>
+                                                <input
+                                                    type="date"
+                                                    name="CheckIn"
+                                                    id="CheckIn"
+                                                    onChange={(e) =>
+                                                        handleRoomBooking(e)
+                                                    }
+                                                />
+                                            </div>
+                                            <div className="aminityItem">
+                                                <label htmlFor="CheckOut">
+                                                    CheckOut:{" "}
+                                                </label>
+                                                <input
+                                                    type="date"
+                                                    name="CheckOut"
+                                                    id="CheckOut"
+                                                />
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div className="stayDuration">
-                                <span>No. of nights: </span>
-                                <span>3</span>
-                            </div>
-                            <div className="AvailableRooms">
-                                <span>Available Rooms: </span>
-                                <span>2</span>
-                            </div>
-                            <div className="roomPrice">
-                                <span>Price: </span>
-                                <div className="avgLow">
-                                    <span>₹ 5000</span>
-                                    <span>/ night</span>
-                                </div>
-                            </div>
-                            <button>Book Now</button>
-                        </div>
-                    </div>
-                    <div className="doubleBed">
-                        <div className="roomImg">
-                            <img src={singleBedImg} alt="" />
-                        </div>
-                        <div className="roomDesc">
-                            <div className="roomTitle">Single Bed Room</div>
-                            <div className="roomRating">
-                                <span>Avg. Rating: </span>
-                                <div>
-                                    <span>4 </span>
-                                    <span>
-                                        <BsFillStarFill />
-                                    </span>
-                                </div>
-                            </div>
-                            <div className="roomInfo">
-                                Lorem ipsum dolor, sit amet consectetur
-                                adipisicing elit. Iusto eos eum expedita aliquam
-                                atque ratione unde sed beatae quis impedit. Qui
-                                est quia in omnis. Pariatur reprehenderit odio
-                                modi doloribus?
-                            </div>
-                            <div className="BookingDate">
-                                <div className="title">Booking Date:</div>
-                                <div className="BookingContainer">
-                                    <div className="aminityItem">
-                                        <label htmlFor="CheckIn">
-                                            CheckIn:{" "}
-                                        </label>
-                                        <input
-                                            type="date"
-                                            name="CheckIn"
-                                            id="CheckIn"
-                                        />
+                                    <div className="stayDuration">
+                                        <span>No. of nights: </span>
+                                        <span>3</span>
                                     </div>
-                                    <div className="aminityItem">
-                                        <label htmlFor="CheckOut">
-                                            CheckOut:{" "}
-                                        </label>
-                                        <input
-                                            type="date"
-                                            name="CheckOut"
-                                            id="CheckOut"
-                                        />
+                                    <div className="AvailableRooms">
+                                        <span>Available Rooms: </span>
+                                        <span>{ele.qty}</span>
                                     </div>
-                                </div>
-                            </div>
-                            <div className="stayDuration">
-                                <span>No. of nights: </span>
-                                <span>3</span>
-                            </div>
-                            <div className="AvailableRooms">
-                                <span>Available Rooms: </span>
-                                <span>2</span>
-                            </div>
-                            <div className="roomPrice">
-                                <span>Price: </span>
-                                <div className="avgLow">
-                                    <span>₹ 5000</span>
-                                    <span>/ night</span>
-                                </div>
-                            </div>
-                            <button>Book Now</button>
-                        </div>
-                    </div>
-                    <div className="doubleBed">
-                        <div className="roomImg">
-                            <img src={masterSuiteImg} alt="" />
-                        </div>
-                        <div className="roomDesc">
-                            <div className="roomTitle">Master Suite Room</div>
-                            <div className="roomRating">
-                                <span>Avg. Rating: </span>
-                                <div>
-                                    <span>4 </span>
-                                    <span>
-                                        <BsFillStarFill />
-                                    </span>
-                                </div>
-                            </div>
-                            <div className="roomInfo">
-                                Lorem ipsum dolor, sit amet consectetur
-                                adipisicing elit. Iusto eos eum expedita aliquam
-                                atque ratione unde sed beatae quis impedit. Qui
-                                est quia in omnis. Pariatur reprehenderit odio
-                                modi doloribus?
-                            </div>
-                            <div className="BookingDate">
-                                <div className="title">Booking Date:</div>
-                                <div className="BookingContainer">
-                                    <div className="aminityItem">
-                                        <label htmlFor="CheckIn">
-                                            CheckIn:{" "}
-                                        </label>
-                                        <input
-                                            type="date"
-                                            name="CheckIn"
-                                            id="CheckIn"
-                                        />
+                                    <div className="roomPrice">
+                                        <span>Price: </span>
+                                        <div className="avgLow">
+                                            <span>₹ {ele.price}</span>
+                                            <span>/ night</span>
+                                        </div>
                                     </div>
-                                    <div className="aminityItem">
-                                        <label htmlFor="CheckOut">
-                                            CheckOut:{" "}
-                                        </label>
-                                        <input
-                                            type="date"
-                                            name="CheckOut"
-                                            id="CheckOut"
-                                        />
-                                    </div>
+                                    <Link to="/bookroom">
+                                        <button
+                                            onClick={(e) =>
+                                                handleSubmit(e, ele)
+                                            }
+                                        >
+                                            Book Now
+                                        </button>
+                                    </Link>
                                 </div>
                             </div>
-                            <div className="stayDuration">
-                                <span>No. of nights: </span>
-                                <span>3</span>
-                            </div>
-                            <div className="AvailableRooms">
-                                <span>Available Rooms: </span>
-                                <span>2</span>
-                            </div>
-                            <div className="roomPrice">
-                                <span>Price: </span>
-                                <div className="avgLow">
-                                    <span>₹ 5000</span>
-                                    <span>/ night</span>
-                                </div>
-                            </div>
-                            <button>Book Now</button>
-                        </div>
-                    </div>
-                    <div className="doubleBed">
-                        <div className="roomImg">
-                            <img src={singleBedImg} alt="" />
-                        </div>
-                        <div className="roomDesc">
-                            <div className="roomTitle">
-                                Executive Suite Room
-                            </div>
-                            <div className="roomRating">
-                                <span>Avg. Rating: </span>
-                                <div>
-                                    <span>4 </span>
-                                    <span>
-                                        <BsFillStarFill />
-                                    </span>
-                                </div>
-                            </div>
-                            <div className="roomInfo">
-                                Lorem ipsum dolor, sit amet consectetur
-                                adipisicing elit. Iusto eos eum expedita aliquam
-                                atque ratione unde sed beatae quis impedit. Qui
-                                est quia in omnis. Pariatur reprehenderit odio
-                                modi doloribus?
-                            </div>
-                            <div className="BookingDate">
-                                <div className="title">Booking Date:</div>
-                                <div className="BookingContainer">
-                                    <div className="aminityItem">
-                                        <label htmlFor="CheckIn">
-                                            CheckIn:{" "}
-                                        </label>
-                                        <input
-                                            type="date"
-                                            name="CheckIn"
-                                            id="CheckIn"
-                                        />
-                                    </div>
-                                    <div className="aminityItem">
-                                        <label htmlFor="CheckOut">
-                                            CheckOut:{" "}
-                                        </label>
-                                        <input
-                                            type="date"
-                                            name="CheckOut"
-                                            id="CheckOut"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="stayDuration">
-                                <span>No. of nights: </span>
-                                <span>3</span>
-                            </div>
-                            <div className="AvailableRooms">
-                                <span>Available Rooms: </span>
-                                <span>2</span>
-                            </div>
-                            <div className="roomPrice">
-                                <span>Price: </span>
-                                <div className="avgLow">
-                                    <span>₹ 5000</span>
-                                    <span>/ night</span>
-                                </div>
-                            </div>
-                            <button>Book Now</button>
-                        </div>
-                    </div>
+                        );
+                    })}
                 </div>
             </div>
         </div>

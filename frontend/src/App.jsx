@@ -8,8 +8,19 @@ import UserProfile from "./Routes/UserProfile";
 import UserHistory from "./Routes/UserHistory";
 import Login from "./Routes/Login";
 import Signup from "./Routes/Signup";
+import { useState } from "react";
 
 function App() {
+
+    const [bookRoom, setBookRoom] = useState({
+        hotelId:'',
+        arrivalDate:'',
+        departureDate:'',
+        stayDur:0,
+        roomType:'',
+        avgPrice:'',
+    })
+
     return (
         <>
             <Router>
@@ -17,8 +28,8 @@ function App() {
                 <Routes>
                     <Route path="/" element={<HomePage />} />
                     <Route path="/hotels" element={<HotelSearch />} />
-                    <Route path="/hotel1" element={<HotelLanding />} />
-                    <Route path="/bookroom" element={<BookRoom />} />
+                    <Route path="/hotel" element={<HotelLanding setBookRoom={setBookRoom} bookRoom={bookRoom}/>} />
+                    <Route path="/bookroom" element={<BookRoom bookRoom={bookRoom}/>} />
                     <Route path="/user/profile" element={<UserProfile />} />
                     <Route path="/user/history" element={<UserHistory />} />
                     <Route path="/login" element={<Login />} />

@@ -2,6 +2,7 @@ const Hotel = require("../models/Hotels");
 
 module.exports.cityData_get = async (req, res) => {
     const cityName = req.query.city;
+    console.log(cityName);
     try {
         const hotels = await Hotel.find({ city: cityName });
 
@@ -27,18 +28,18 @@ module.exports.cityData_get = async (req, res) => {
         res.send(hotelRes);
     } catch (err) {
         console.log(err);
-        res.send("not found");
+        res.status(404).json({msg:"not found"});
     }
 };
 
 module.exports.hotel_get = async (req, res) => {
     const hotelId = req.query.id;
     const hotel = await Hotel.findById(hotelId);
-    const response = {
-        name: hotel.name,
-        data: getRoomType(hotel),
-    };
-    res.send(response);
+    // const response = {
+    //     name: hotel.name,
+    //     data: getRoomType(hotel),
+    // };
+    res.send(hotel);
 };
 
 function getRoomType(hotel){

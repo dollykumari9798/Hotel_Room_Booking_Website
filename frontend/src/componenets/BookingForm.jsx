@@ -1,9 +1,9 @@
-import { useSearchParams } from "react-router-dom";
+// import { useSearchParams } from "react-router-dom";
 import "../assets/style/bookingForm.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-export default function BookingForm() {
+export default function BookingForm({bookRoom}) {
     const [userData, setUserData] = useState({});
     const [hotelData, setHotelData] = useState({});
     const [formData, setFormData] = useState({
@@ -19,7 +19,7 @@ export default function BookingForm() {
         avgPrice: "",
         totalPrice: "",
     });
-    const [searchParams] = useSearchParams();
+    // const [searchParams] = useSearchParams();
 
     function handleChange(e) {
         const field = e.target.name;
@@ -47,25 +47,25 @@ export default function BookingForm() {
             console.log(err.message);
         }
     }
-    async function getHotelDetails(id) {
-        // console.log(id);
-        try {
-            const response = await axios.get("http://localhost:5000/hotel/", {
-                params: {
-                    id: id,
-                },
-            });
-            setHotelData(response.data);
-            // console.log(response.data);
-        } catch (err) {
-            console.log(err.message);
-        }
-    }
+    // async function getHotelDetails(id) {
+    //     // console.log(id);
+    //     try {
+    //         const response = await axios.get("http://localhost:5000/hotel/", {
+    //             params: {
+    //                 id: id,
+    //             },
+    //         });
+    //         setHotelData(response.data);
+    //         // console.log(response.data);
+    //     } catch (err) {
+    //         console.log(err.message);
+    //     }
+    // }
 
     useEffect(() => {
         const token = localStorage.getItem("jwtToken");
         getUserDetails(token);
-        getHotelDetails(searchParams.get("id"));
+        // getHotelDetails(searchParams.get("id"));
         setTimeout(()=>{
           setFormData({
             ...formData,

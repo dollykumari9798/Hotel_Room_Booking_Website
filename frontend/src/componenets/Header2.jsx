@@ -2,21 +2,24 @@ import green from "../assets/img/green.jpg";
 import { PropTypes } from "prop-types";
 import axios from "axios";
 
-export default function Header2({city, setCity, setHotels}) {
-
-    async function handleSearch(){
+export default function Header2({ city, setCity, setHotels }) {
+    async function handleSearch() {
         try {
-            const response = await axios.get('http://localhost:5000/hotel/all', {
-              params: {
-                city: city
-              },
-            });
-            console.log(response.data);
-            setHotels(response.data);
-          } catch (error) {
-            console.error('Error fetching data:', error.message);
-          }
-        console.log('hii');
+            // const response = await axios.get("https://hotelbookingfrontend.onrender.com/hotel/all",{
+                    const response = await axios.get('http://localhost:5000/hotel/all', {
+                    params: {
+                        city: city,
+                    },
+                }
+            );
+            if (response.data) {
+                // console.log(response.data);
+                setHotels(response.data);
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error.message);
+        }
+        console.log("hii");
     }
 
     return (
@@ -47,4 +50,4 @@ Header2.propTypes = {
 
 Header2.defaultProps = {
     city: "",
-  }
+};
