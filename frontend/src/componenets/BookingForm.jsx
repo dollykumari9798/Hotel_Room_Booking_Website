@@ -3,7 +3,6 @@ import "../assets/style/bookingForm.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { PropTypes } from "prop-types";
-import { useNavigate } from "react-router-dom";
 
 export default function BookingForm({ bookRoom }) {
     const [userData, setUserData] = useState({});
@@ -23,7 +22,6 @@ export default function BookingForm({ bookRoom }) {
         totalPrice: 0,
         nRooms: 0,
     });
-    const navigate = useNavigate();
 
     async function handleCheckout(e) {
         e.preventDefault();
@@ -64,29 +62,13 @@ export default function BookingForm({ bookRoom }) {
             };
             const rzp1 = new window.Razorpay(options);
             rzp1.open();
+            alert(bookedRes.data.token);
         } catch (err) {
             console.log(err.message);
         }
 
         setTotal(formData.totalPrice);
         console.log(formData);
-        // try {
-        //     const response = await axios.post(
-        //         "http://localhost:5000/user/bookhotel",
-        //         formData
-        //     );
-        //     if (response.data.error) {
-        //         console.log(response.data.error);
-        //     }
-        //     if (response.data.token) {
-        //         console.log(response.data.token);
-        //         // localStorage.setItem("jwtToken", response.data.token);
-        //         navigate("/user/history");
-        //     }
-        // } catch (error) {
-        //     // Handle login error here
-        //     console.error("Error:", error.message);
-        // }
     }
 
     async function getUserDetails(tokenID) {

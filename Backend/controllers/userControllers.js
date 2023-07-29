@@ -73,35 +73,46 @@ module.exports.bookHotel_post = async (req, res) => {
 };
 
 module.exports.userHistory_get = async (req, res) => {
-    const userId = jwt.decode(req.body.token).id;
-    console.log(userId);
-    const rowData = {
-        Booking_Date: "",
-        Arrival_Date: "",
-        Departure_Date: "",
-        Duration: "",
-        Hotel_Name: "",
-        City_Name: "",
-        Room_Type: "",
-        No_Of_Persons: "",
-        Total_Price: "",
-    };
+    const userId = jwt.decode(req.query.token).id;
+    // console.log(req.query.token);
+    // const rowData = {
+    //     Booking_Date: "",
+    //     Arrival_Date: "",
+    //     Departure_Date: "",
+    //     Duration: "",
+    //     Hotel_Name: "",
+    //     City_Name: "",
+    //     Room_Type: "",
+    //     No_Of_Persons: "",
+    //     Total_Price: "",
+    // };
     try {
         const history = await BookingHistory.find({ userID: userId });
         if (history.length) {
             const result = [];
             history.forEach(async (ele) => {
+                // const hotel = await Hotel.findById(ele.hotelId);
+                const rowData = {
+                    Booking_Date: "",
+                    Arrival_Date: "",
+                    Departure_Date: "",
+                    Duration: "",
+                    Hotel_Name: "",
+                    City_Name: "",
+                    Room_Type: "",
+                    No_Of_Persons: "",
+                    Total_Price: "",
+                };
                 rowData.Booking_Date = ele.BookingDate;
                 rowData.Arrival_Date = ele.BookingDuration.slice(0, 10);
                 rowData.Departure_Date = ele.BookingDuration.slice(11);
-                (rowData.Duration = getDuration(
+                (rowData.Duration = getNumberOfDaysBetweenDates(
                     ele.BookingDuration.slice(0, 10),
                     ele.BookingDuration.slice(11)
                 )),
                     (rowData.Hotel_Name = ele.hotelName);
-                rowData.City_Name = ele.City;
-                rowData.Room_Type = getRoomType(ele.roomId);
-                rowData.No_Of_Persons = ele.NoOfPersson;
+                // rowData.City_Name = hotel.city // get city name
+                rowData.Room_Type = ele.RoomType;
                 rowData.Total_Price = ele.TotalPrice;
 
                 result.push(rowData);
@@ -116,19 +127,24 @@ module.exports.userHistory_get = async (req, res) => {
     }
 };
 
-function getRoomType(id) {
-    id = id.slice(0, 2);
-    if (id == "SB") {
-        return "Single Bed";
-    } else if (id == "DB") {
-        return "Double Bed";
-    } else if (id == "MS") {
-        return "Master Suite";
-    } else if (id == "ES") {
-        return "Executive suite";
-    }
+async function getCity(id) {
+    const hotel = await Hotel.findById(id);
+    // console.log(id, hotel.city);
+    return hotel.city;
 }
+function getNumberOfDaysBetweenDates(startDate, endDate) {
+    const date1 = new Date(startDate);
+  const date2 = new Date(endDate);
 
+  // Calculate the difference in milliseconds between the two dates
+  const differenceInMs = Math.abs(date2 - date1);
+
+  // Convert milliseconds to days (1 day = 24 hours * 60 minutes * 60 seconds * 1000 milliseconds)
+  const numberOfDays = Math.ceil(differenceInMs / (1000 * 60 * 60 * 24));
+
+  return numberOfDays;
+  }
+  
 function getDuration(Arrival_Date, Departure_Date) {
     Arrival_Date = convertDateFormat(Arrival_Date);
     Departure_Date = convertDateFormat(Departure_Date);
