@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import "../assets/style/BookingHistory.css";
 import axios from "axios";
+import BASE_URL from "../API_Config";
 
 export default function BookingHistory() {
     const [result, setResult] = useState([]);
     async function getUserDetails(tokenID) {
         try {
             const response = await axios.get(
-                "https://hotelbookingfrontend.onrender.com/user/history",
-                // "http://localhost:5000/user/history",
+                `${BASE_URL}/user/history`,
                 {
                     params: {
                         token: tokenID,
@@ -16,9 +16,14 @@ export default function BookingHistory() {
                 }
             );
             setResult(response.data);
+            console.log(response.data);
         } catch (err) {
             console.log(err.message);
         }
+    }
+    function refresh(){
+        getUserDetails(localStorage.getItem("jwtToken"));
+        // console.log(result);
     }
     useEffect(() => {
         getUserDetails(localStorage.getItem("jwtToken"));
@@ -42,7 +47,7 @@ export default function BookingHistory() {
                         </tr>
                     </thead>
                     <tbody>
-                        {result?.map((ele, index) => {
+                        {result.map((ele, index) => {
                             <tr key={index}>
                                 <td>
                                     <span>{ele.Booking_Date}</span>
@@ -59,6 +64,7 @@ export default function BookingHistory() {
                 </table>
             </div>
             <button>Print</button>
+            <button onClick={refresh}>Refresh</button>
         </div>
     );
 }

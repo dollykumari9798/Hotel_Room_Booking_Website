@@ -2,6 +2,7 @@ import { useState } from "react";
 import "../assets/style/login.css";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import BASE_URL from "../API_Config";
 // import loginBg from '../assets/img/loginBg.svg'
 
 export default function Login() {
@@ -10,8 +11,7 @@ export default function Login() {
     const navigate = useNavigate(); 
     const handleLogin = async () => {
         try {
-            const response = await axios.post("https://hotelbookingfrontend.onrender.com/login", {
-            // const response = await axios.post("http://localhost:5000/login", {
+            const response = await axios.post(`${BASE_URL}/login`, {
                 email: email,
                 password: password,
             });

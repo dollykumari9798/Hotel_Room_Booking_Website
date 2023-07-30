@@ -3,6 +3,7 @@ import signUp from '../assets/img/signUp.svg';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import BASE_URL from '../API_Config';
 
 export default function Signup() {
     const [email, setEmail] = useState("");
@@ -10,10 +11,10 @@ export default function Signup() {
     const [name, setName] = useState("");
     const [mob, setMob] = useState("");
     const navigate = useNavigate(); 
-    const handleLogin = async () => {
+    const handleLogin = async (e) => {
+        e.preventDefault();
         try {
-            const response = await axios.post("https://hotelbookingfrontend.onrender.com/signup", {
-            // const response = await axios.post("http://localhost:5000/signup", {
+            const response = await axios.post(`${BASE_URL}/signup`, {
                 email: email,
                 password: password,
                 name : name,
@@ -22,6 +23,7 @@ export default function Signup() {
             if (response.data.error) {
                 console.log(response.data.error);
             }
+            console.log(response.data);
             if (response.data.token) {
                 localStorage.setItem("jwtToken", response.data.token);
                 navigate('/');
@@ -72,7 +74,7 @@ export default function Signup() {
                             />
                         </div>
                         <div className="flex form__submit items-center justify-between">
-                            <button className="form__btn-submit" onClick={handleLogin}>
+                            <button className="form__btn-submit" onClick={(e)=>handleLogin(e)}>
                                 Sign up
                             </button>
                         </div>

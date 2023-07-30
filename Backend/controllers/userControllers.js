@@ -4,11 +4,18 @@ const jwt = require("jsonwebtoken");
 const Hotel = require("../models/Hotels");
 
 module.exports.userData_post = async (req, res) => {
-    const { userId, address, country } = req.body;
+    const { token, name, email, mob, address, country } = req.body;
     // console.log(data);
+    const userId = jwt.decode(token).id;
     const updatedUser = await User.findByIdAndUpdate(
         userId,
-        { address: address, country: country },
+        {
+            name: name,
+            email: email,
+            mob: mob,
+            address: address,
+            country: country,
+        },
         { new: true }
     );
     console.log("Updated user:", updatedUser);
@@ -22,6 +29,7 @@ module.exports.userData_post = async (req, res) => {
 };
 
 module.exports.userData_get = async (req, res) => {
+    console.log(req.query.token);
     const userId = jwt.decode(req.query.token).id;
     const user = await User.findById(userId);
     const response = {
@@ -50,7 +58,7 @@ module.exports.bookHotel_post = async (req, res) => {
         nRooms,
     } = req.body;
     try {
-        const user = await User.findOne({email});
+        const user = await User.findOne({ email });
         if (!user) {
             res.status(301).json({ message: "user not found" });
         } else {
@@ -58,11 +66,10 @@ module.exports.bookHotel_post = async (req, res) => {
                 hotelName: hotelName,
                 hotelId: hotelId,
                 userID: user._id,
-                BookingDuration: arrivalDate+'_'+departureDate,
+                BookingDuration: arrivalDate + "_" + departureDate,
                 TotalPrice: totalPrice,
-                RoomType:roomType,
+                RoomType: roomType,
             });
-            
 
             res.status(200).json({ token: booking._id });
         }
@@ -134,17 +141,17 @@ async function getCity(id) {
 }
 function getNumberOfDaysBetweenDates(startDate, endDate) {
     const date1 = new Date(startDate);
-  const date2 = new Date(endDate);
+    const date2 = new Date(endDate);
 
-  // Calculate the difference in milliseconds between the two dates
-  const differenceInMs = Math.abs(date2 - date1);
+    // Calculate the difference in milliseconds between the two dates
+    const differenceInMs = Math.abs(date2 - date1);
 
-  // Convert milliseconds to days (1 day = 24 hours * 60 minutes * 60 seconds * 1000 milliseconds)
-  const numberOfDays = Math.ceil(differenceInMs / (1000 * 60 * 60 * 24));
+    // Convert milliseconds to days (1 day = 24 hours * 60 minutes * 60 seconds * 1000 milliseconds)
+    const numberOfDays = Math.ceil(differenceInMs / (1000 * 60 * 60 * 24));
 
-  return numberOfDays;
-  }
-  
+    return numberOfDays;
+}
+
 function getDuration(Arrival_Date, Departure_Date) {
     Arrival_Date = convertDateFormat(Arrival_Date);
     Departure_Date = convertDateFormat(Departure_Date);

@@ -1,12 +1,12 @@
 import green from "../assets/img/green.jpg";
 import { PropTypes } from "prop-types";
 import axios from "axios";
+import BASE_URL from "../API_Config";
 
 export default function Header2({ city, setCity, setHotels }) {
     async function handleSearch() {
         try {
-            const response = await axios.get("https://hotelbookingfrontend.onrender.com/hotel/all",{
-                    // const response = await axios.get('http://localhost:5000/hotel/all', {
+            const response = await axios.get(`${BASE_URL}/hotel/all`,{
                     params: {
                         city: city,
                     },

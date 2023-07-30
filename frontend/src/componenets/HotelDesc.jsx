@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { PropTypes } from "prop-types";
+import BASE_URL from "../API_Config";
 
 export default function HotelDesc({ bookRoom, setBookRoom }) {
     const [searchParams] = useSearchParams();
@@ -90,8 +91,7 @@ export default function HotelDesc({ bookRoom, setBookRoom }) {
 
     async function getHotelDetails(id) {
         try {
-            const response = await axios.get("https://hotelbookingfrontend.onrender.com/hotel/", {
-            // const response = await axios.get("http://localhost:5000/hotel/", {
+            const response = await axios.get(`${BASE_URL}/hotel/`, {
                 params: {
                     id: id,
                 },
